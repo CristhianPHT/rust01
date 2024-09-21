@@ -1,32 +1,42 @@
-pub fn sumar(x: i32, y:i32) ->i32{
-  x+y
+#[derive(Debug)]
+#[derive(PartialEq)]
+pub enum Salida{
+  IntMin(i32),
+  IntMax(i64),
+  Float(f32),
+  Err(String),
 }
-pub fn restar(x: i32, y:i32) ->i32{
-  x-y
+
+pub fn sumar(x: i32, y:i32) -> Salida{
+  Salida::IntMin(x+y)
 }
-pub fn multiplicar(x: i32, y:i32) -> i32{
-  x*y
+pub fn restar(x: i32, y:i32) -> Salida{
+  Salida::IntMin(x-y)
 }
-pub fn division(x:i32, y:i32) -> Result<f32, String> {
+pub fn multiplicar(x: i32, y:i32) -> Salida{
+  Salida::IntMin(x*y)
+}
+pub fn division(x:i32, y:i32) -> Salida {
   if y==0{
-    Err("No puede dividirse con 0.".to_string())
+    Salida::Err("No puede dividirse con 0.".to_string())
   } else {
     let a:f32=x as f32; let b:f32=y as f32;
-    Ok(a/b)
+    Salida::Float(a/b)
   }
 }
-pub fn potencia(x:i32, y:i32) -> i64{
-  let resultado: i64 = (x as i64)**(y as i64);
-  resultado
-  // let a:i64 = x as i64; let b: i64 = y as i64;
-  // a**b
+pub fn potencia(x:i32, y:i32) -> Salida{
+  let mut resultado:i64 = 1;
+  for _ in 0..y{
+    resultado *= x as i64;
+  }
+  Salida::IntMax(resultado)
 }
-pub fn raiz(x:i32, y:i32) -> Result<f32, String> {
+pub fn raiz(x:i32, y:i32) -> Salida {
   if x < 0 {
-    Err("El número no puede ser negativo.".to_string())
+    Salida::Err("El número no puede ser negativo.".to_string())
   } else {
     let a: f32 = x as f32; let b: f32 = y as f32;
-    Ok(a**(1.0/b))
+    Salida::Float(a.powf(1.0/b))
   }
 }
 
@@ -37,33 +47,33 @@ mod tests {
 
     #[test]
     fn test_sumar() {
-        assert_eq!(sumar(2, 3), 5);
+        assert_eq!(sumar(2, 3), Salida::IntMin(5));
     }
 
     #[test]
     fn test_restar() {
-        assert_eq!(restar(5, 2), 3);
+        assert_eq!(restar(5, 2), Salida::IntMin(3));
     }
 
     #[test]
     fn test_multiplicar() {
-        assert_eq!(multiplicar(4, 5), 20);
+        assert_eq!(multiplicar(4, 5), Salida::IntMin(20));
     }
 
     #[test]
     fn test_division() {
-        assert_eq!(division(10, 2), Ok(5.0));
-        assert_eq!(division(10, 0), Err("No puede dividirse con 0.".to_string()));
+        assert_eq!(division(10, 2), Salida::Float(5.0));
+        assert_eq!(division(10, 0), Salida::Err("No puede dividirse con 0.".to_string()));
     }
 
     #[test]
     fn test_potencia() {
-      assert_eq!(potencia(2, 3), 8);
+      assert_eq!(potencia(2, 3), Salida::IntMax(8));
     }
 
     #[test]
     fn test_raiz() {
-      assert_eq!(raiz(36, 2), Ok(6.0));
-      assert_eq!(raiz(-10, 2), Err("El número no puede ser negativo.".to_string()))
+      assert_eq!(raiz(27, 3), Salida::Float(3.0));
+      assert_eq!(raiz(-10, 5), Salida::Err("El número no puede ser negativo.".to_string()))
     }
 }
