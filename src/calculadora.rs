@@ -1,12 +1,20 @@
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[derive(PartialEq)]
 pub enum Salida{
   IntMin(i32),
   IntMax(i64),
   Float(f32),
+  Signo(String),
   Err(String),
 }
-
+pub fn newlista(uno: &Salida,sig: &Salida, dos: &Salida, resul: &Salida) -> Vec<Salida> {
+  let mut lista: Vec<Salida> = Vec::new();
+  lista.push(uno.clone());
+  lista.push(sig.clone());
+  lista.push(dos.clone());
+  lista.push(resul.clone());
+  lista
+}
 pub fn sumar(x: i32, y:i32) -> Salida{
   Salida::IntMin(x+y)
 }

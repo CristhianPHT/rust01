@@ -13,3 +13,12 @@ pub fn int() -> i32{
   }
   numero
 }
+
+// #[cfg(test)]
+// mod test {
+//   use super::*;
+//   #[test]
+//   fn test_int(){
+//     assert_eq!(int(), 1)
+//   }
+// }
