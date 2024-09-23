@@ -1,8 +1,5 @@
-mod calculadora; // Muchas operaciones matemáticas
-use calculadora::{sumar as sum, restar as res, multiplicar as mul, division as divi, potencia as pote,Salida as Sal};
-use crate::calculadora::Salida;
-mod validaciones;   // Declaro en módulo validaciones
-use validaciones as vali; // Renombro el módulo validaciones por "vali"
+use calculadora::{sumar as sum, restar as res, multiplicar as mul, division as divi, potencia as pote, Salida as Sal};
+use validaciones as vali;
 
 pub fn user_calduladora(){
   let mut historial: Vec<Vec<calculadora::Salida>> = vec![];
